@@ -10,3 +10,11 @@ variable "vpc_cidr" {
   default     = "172.16.0.0/16"
   description = "CIDR for the dev VPC"
 }
+
+variable "bastion_asg_min" { default = 0 }
+variable "bastion_asg_max" { default = 0 }
+variable "bastion_asg_desired" { default = 0 }
+
+variable "webserver_asg_min" { default = 0 }
+variable "webserver_asg_max" { default = 0 }
+variable "webserver_asg_desired" { default = 0 }
