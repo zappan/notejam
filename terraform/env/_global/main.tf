@@ -11,6 +11,6 @@ module "codedeploy" {
 }
 
 module "iam" {
-  source                = "../../modules/iam"
-  codedeploy_policy_arn = "${module.codedeploy.codedeploy_policy_arn}"
+  source            = "../../modules/iam"
+  codedeploy_bucket = "${module.codedeploy.codedeploy_bucket}"
 }

@@ -3,11 +3,6 @@ resource "aws_iam_instance_profile" "webserver" {
     role = "${aws_iam_role.webserver.name}"
 }
 
-resource "aws_iam_role_policy_attachment" "webserver" {
-  role       = "${aws_iam_role.webserver.name}"
-  policy_arn = "${var.codedeploy_policy_arn}"
-}
-
 resource "aws_iam_role" "webserver" {
   name = "ToptalDevOpsWebServerRole"
   description = "Web Server EC2 role allowing use of S3 for CodeDeploy and other required resources"
@@ -27,4 +22,9 @@ resource "aws_iam_role" "webserver" {
   ]
 }
 EOF
+}
+
+resource "aws_iam_role_policy_attachment" "webserver_codedeploy_s3_read_access_policy" {
+  role       = "${aws_iam_role.webserver.name}"
+  policy_arn = "${aws_iam_policy.toptaldevops_codedeploy_s3_read_access.arn}"
 }

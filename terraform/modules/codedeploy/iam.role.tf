@@ -1,5 +1,5 @@
-resource "aws_iam_role" "toptaldevops_codedeploy" {
-  name        = "ToptalDevOpsCodeDeployRole"
+resource "aws_iam_role" "codedeploy_service_role" {
+  name        = "ToptalDevOpsCodeDeployServiceRole"
   description = "A service role used by the AWS CodeDeploy service to orchestrate the deployment."
 
   assume_role_policy = <<EOF
@@ -19,7 +19,7 @@ resource "aws_iam_role" "toptaldevops_codedeploy" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "toptaldevops_codedeploy" {
-  role       = "${aws_iam_role.toptaldevops_codedeploy.name}"
-  policy_arn = "${aws_iam_policy.toptaldevops_codedeploy.arn}"
+resource "aws_iam_role_policy_attachment" "codedeploy_service_role" {
+  role       = "${aws_iam_role.codedeploy_service_role.name}"
+  policy_arn = "${data.aws_iam_policy.aws_code_deploy_role.arn}"
 }

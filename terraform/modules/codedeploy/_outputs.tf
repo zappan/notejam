@@ -2,10 +2,10 @@ output "app_name" {
   value = "${aws_codedeploy_app.app.name}"
 }
 
-output "codedeploy_role_arn" {
-  value = "${aws_iam_role.toptaldevops_codedeploy.arn}"
+output "codedeploy_bucket" {
+  value = "${aws_s3_bucket.codedeploy_bucket.bucket}"
 }
 
-output "codedeploy_policy_arn" {
-  value = "${aws_iam_policy.toptaldevops_codedeploy.arn}"
+output "codedeploy_role_arn" {
+  value = "${aws_iam_role.codedeploy_service_role.arn}"
 }

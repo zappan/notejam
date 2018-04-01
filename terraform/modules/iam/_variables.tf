@@ -1,1 +1,1 @@
-variable "codedeploy_policy_arn" {}
+variable "codedeploy_bucket" {}

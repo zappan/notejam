@@ -1,29 +1,19 @@
-resource "aws_iam_policy" "toptaldevops_codedeploy" {
-  name        = "ToptalDevOpsCodeDeployPolicy"
-  description = "A CodeDeploy Policy"
+data "aws_iam_policy" "aws_code_deploy_role" {
+  arn = "arn:aws:iam::aws:policy/service-role/AWSCodeDeployRole"
+}
+
+data "aws_iam_policy" "aws_code_deploy_full_access" {
+  arn = "arn:aws:iam::aws:policy/AWSCodeDeployFullAccess"
+}
+
+resource "aws_iam_policy" "s3_codedeploy_bucket_full_access" {
+  name        = "ToptalDevOpsS3CodeDeployBucketFullAccessPolicy"
+  description = "Access policy allowing CodeDeploy CI user full access to CodeDeploy S3 bucket"
 
   policy = <<EOF
 {
   "Version": "2012-10-17",
   "Statement": [
-    {
-      "Effect": "Allow",
-      "Action": [
-        "autoscaling:CompleteLifecycleAction",
-        "autoscaling:DeleteLifecycleHook",
-        "autoscaling:DescribeAutoScalingGroups",
-        "autoscaling:DescribeLifecycleHooks",
-        "autoscaling:PutLifecycleHook",
-        "autoscaling:RecordLifecycleActionHeartbeat",
-        "codedeploy:*",
-        "ec2:DescribeInstances",
-        "ec2:DescribeInstanceStatus",
-        "tag:GetTags",
-        "tag:GetResources",
-        "sns:Publish"
-      ],
-      "Resource": "*"
-    },
     {
       "Effect": "Allow",
       "Action": "s3:*",
