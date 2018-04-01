@@ -29,4 +29,8 @@ module "application" {
   asg_desired     = "${var.webserver_asg_desired}"
   asg_subnet_ids  = "${module.networking.webserver_subnet_ids}"
   webserver_sg_id = "${module.networking.webserver_sg_id}"
+  webserver_iam_profile       = "${var.webserver_iam_profile}"
+  deployment_app_name         = "${var.deployment_app_name}"
+  deployment_option           = "${var.deployment_option}"
+  deployment_service_role_arn = "${var.codedeploy_role_arn}"
 }

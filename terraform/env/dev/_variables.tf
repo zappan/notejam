@@ -11,6 +11,8 @@ variable "vpc_cidr" {
   description = "CIDR for the dev VPC"
 }
 
+variable "webserver_iam_profile" {}
+
 variable "bastion_asg_min" { default = 0 }
 variable "bastion_asg_max" { default = 0 }
 variable "bastion_asg_desired" { default = 0 }
@@ -18,3 +20,8 @@ variable "bastion_asg_desired" { default = 0 }
 variable "webserver_asg_min" { default = 0 }
 variable "webserver_asg_max" { default = 0 }
 variable "webserver_asg_desired" { default = 0 }
+
+# Deployment vars
+variable "deployment_app_name" {}
+variable "deployment_option" {}
+variable "codedeploy_role_arn" {}
