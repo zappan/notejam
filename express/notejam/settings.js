@@ -6,7 +6,11 @@ var settings = {
   test: {
     db: "notejam_test.db",
     dsn: "sqlite://notejam_test.db"
-  }
+  },
+  production: {
+    db: "notejam.db",
+    dsn: "sqlite://notejam.db"
+  },
 };
 
 
