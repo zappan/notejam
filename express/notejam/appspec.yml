@@ -1,0 +1,25 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/html/
+hooks:
+  BeforeInstall:
+    - location: scripts/aws-codedeploy/check_instance_ready.sh
+      timeout: 600
+      runas: root
+  AfterInstall:
+    - location: scripts/aws-codedeploy/bootstrap_app.sh
+      timeout: 300
+      runas: root
+    - location: scripts/aws-codedeploy/start_server.sh
+      timeout: 300
+      runas: root
+  ValidateService:
+    - location: scripts/aws-codedeploy/restart_codedeploy_agent.sh
+      timeout: 300
+      runas: root
+  ApplicationStop:
+    - location: scripts/aws-codedeploy/stop_server.sh
+      timeout: 300
+      runas: root

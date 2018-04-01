@@ -1,0 +1,55 @@
+version: 2
+jobs:
+  test:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/project/express/notejam
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          key: dependency-cache-test-{{ checksum "package.json" }}
+      - run: ./scripts/ci/tests.sh
+      - save_cache:
+          key: dependency-cache-test-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+  deploy:
+    docker:
+      - image: circleci/node:8
+    working_directory: ~/project/express/notejam
+    steps:
+      - checkout:
+          path: ~/project
+      - restore_cache:
+          key: dependency-cache-deploy-{{ checksum "package.json" }}
+      - run: ./scripts/ci/deploy.sh
+      - save_cache:
+          key: dependency-cache-deploy-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+
+
+workflows:
+  version: 2
+  test_deploy:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only:
+                - master
+                - /^release\/.*/
+                - dev
+                - /^feature\/.*/
+                - /^(hot)?fix\/.*/
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+                - /^release\/.*/
+                - dev
