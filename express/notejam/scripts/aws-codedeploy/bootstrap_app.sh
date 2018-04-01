@@ -12,7 +12,7 @@ chown -R www-data:www-data $APP_PATH
 
 #### CONFIG
 ## notejam app systemd start script
-cp $DEPLOYMENT_SYSTEMD_CONFIG_DIR/system/notejam.service SYSTEMD_CONFIG_DIR/system/notejam.service
+cp $DEPLOYMENT_SYSTEMD_CONFIG_DIR/system/notejam.service $SYSTEMD_CONFIG_DIR/system/notejam.service
 systemctl enable notejam
 
 ## nginx site config & restart to pick up new <site.conf>
