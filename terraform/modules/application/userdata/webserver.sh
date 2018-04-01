@@ -32,16 +32,26 @@ sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o DPkg::options::="--force-confd
 #### PREREQUISITES
 sudo apt-get install -y curl unzip ruby
 
+#### INSTALL NODE.JS
+sudo apt-get install -y nodejs build-essential
+sudo npm i -g npm
+
+#### INSTALL NGINX
+sudo apt-get install -y nginx
+
+#### CLEANUP for AWS CodeDeploy
+sudo mv $DEPLOY_APP_PATH $DEPLOY_APP_PATH.bak
+
 
 #### INSTALL NON-APT PACKAGES ####
 mkdir -p ~/tmp
 cd ~/tmp
 
-## AWS CLI
-sudo apt-get update && sudo apt-get install -y python-dev
-curl -O https://bootstrap.pypa.io/get-pip.py
-sudo python get-pip.py
-sudo pip install awscli
+# ## AWS CLI - not needed currently (no sync of keys from S3)
+# sudo apt-get update && sudo apt-get install -y python-dev
+# curl -O https://bootstrap.pypa.io/get-pip.py
+# sudo python get-pip.py
+# sudo pip install awscli
 
 ## AWS CODE DEPLOY AGENT
 curl -O https://$CODE_DEPLOY_AGENT_BUCKET/latest/install
@@ -53,15 +63,7 @@ cd ~/
 #### END :: INSTALL NON-APT PACKAGES ####
 
 
-#### INSTALL NODE.JS
-sudo apt-get install -y nodejs build-essential
-sudo npm i -g npm
-
-#### INSTALL NGINX
-sudo apt-get install -y nginx
-
-# cleanup deploy dir for AWS CodeDeploy & create /var/www/html (CodeDeploy expects an empty dir)
-sudo mv $DEPLOY_APP_PATH $DEPLOY_APP_PATH.bak
+#### CREATE deploy dir for AWS CodeDeploy (it expects an empty dir to mark installation finished)
 sudo mkdir -p $DEPLOY_APP_PATH
 
 exit 0;
