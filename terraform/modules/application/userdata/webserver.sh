@@ -1,4 +1,5 @@
 #!/bin/bash
+set -x
 
 ###############################################################################################################################
 ##
@@ -24,23 +25,22 @@ DEPLOY_APP_PATH=/var/www/html
 
 #### ADD ADDITIONAL REPOS NEEDED
 curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
-sudo apt-get update
 
 #### UPDATE SYSTEM
-sudo DEBIAN_FRONTEND=noninteractive apt-get -y -o DPkg::options::="--force-confdef" -o DPkg::options::="--force-confold" upgrade
+DEBIAN_FRONTEND=noninteractive apt-get -y -o DPkg::options::="--force-confdef" -o DPkg::options::="--force-confold" upgrade
 
 #### PREREQUISITES
-sudo apt-get install -y curl unzip ruby
+apt-get install -y curl unzip ruby
 
 #### INSTALL NODE.JS
-sudo apt-get install -y nodejs build-essential
-sudo npm i -g npm
+apt-get install -y nodejs build-essential
+npm i -g npm
 
 #### INSTALL NGINX
-sudo apt-get install -y nginx
+apt-get install -y nginx
 
 #### CLEANUP for AWS CodeDeploy
-sudo mv $DEPLOY_APP_PATH $DEPLOY_APP_PATH.bak
+mv $DEPLOY_APP_PATH $DEPLOY_APP_PATH.bak
 
 
 #### INSTALL NON-APT PACKAGES ####
@@ -48,22 +48,41 @@ mkdir -p ~/tmp
 cd ~/tmp
 
 # ## AWS CLI - not needed currently (no sync of keys from S3)
-# sudo apt-get update && sudo apt-get install -y python-dev
+# apt-get update && apt-get install -y python-dev
 # curl -O https://bootstrap.pypa.io/get-pip.py
-# sudo python get-pip.py
-# sudo pip install awscli
+# python get-pip.py
+# pip install awscli
 
 ## AWS CODE DEPLOY AGENT
 curl -O https://$CODE_DEPLOY_AGENT_BUCKET/latest/install
 chmod +x ./install
-sudo ./install auto
-sudo service codedeploy-agent start
+./install auto
+
+if [ -e "/etc/init.d/codedeploy-agent.service" ]; then
+  if [ ! -e /lib/systemd/system/codedeploy-agent.service ] && [ ! -e /usr/lib/systemd/system/codedeploy-agent.service ]; then
+    echo "Moving CodeDeploy service file to correct location."
+    mv /etc/init.d/codedeploy-agent.service /lib/systemd/system/
+  else
+    echo "CodeDeploy service file found in both /etc/init.d and a correct systemd directory -- removing /etc/init.d one"
+    rm -f /etc/init.d/codedeploy-agent.service
+  fi
+  echo "CodeDeploy service file changed, reloading systemctl daemon."
+  systemctl daemon-reload
+  sleep 5s
+else
+    echo "CodeDeploy service file not in /etc/init.d, no change made."
+fi
+
+# Set to run at boot, then start (note --now does not always work)
+systemctl enable codedeploy-agent
+systemctl start codedeploy-agent
+
 
 cd ~/
 #### END :: INSTALL NON-APT PACKAGES ####
 
 
 #### CREATE deploy dir for AWS CodeDeploy (it expects an empty dir to mark installation finished)
-sudo mkdir -p $DEPLOY_APP_PATH
+mkdir -p $DEPLOY_APP_PATH
 
 exit 0;
