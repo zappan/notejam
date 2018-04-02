@@ -26,7 +26,8 @@ module "global" {
 module "devEnvironment" {
   source                = "./env/dev"
   region                = "${var.region}"
-  amis                  = "${var.amis}"
+  default_amis          = "${local.default_amis}"
+  webserver_amis        = "${local.webserver_amis}"
   ssh_key_name          = "${var.ssh_key_name}"
   deployment_app_name   = "${module.global.app_name}"
   deployment_option     = "WITHOUT_TRAFFIC_CONTROL"
@@ -37,7 +38,8 @@ module "devEnvironment" {
 module "prodEnvironment" {
   source                = "./env/prod"
   region                = "${var.region}"
-  amis                  = "${var.amis}"
+  default_amis          = "${local.default_amis}"
+  webserver_amis        = "${local.webserver_amis}"
   ssh_key_name          = "${var.ssh_key_name}"
   deployment_app_name   = "${module.global.app_name}"
   deployment_option     = "WITHOUT_TRAFFIC_CONTROL"
