@@ -47,11 +47,11 @@ sudo mv $DEPLOY_APP_PATH $DEPLOY_APP_PATH.bak
 mkdir -p ~/tmp
 cd ~/tmp
 
-# ## AWS CLI - not needed currently (no sync of keys from S3)
-# sudo apt-get update && sudo apt-get install -y python-dev
-# curl -O https://bootstrap.pypa.io/get-pip.py
-# sudo python get-pip.py
-# sudo pip install awscli
+## AWS CLI
+sudo apt-get update && sudo apt-get install -y python-dev
+curl -O https://bootstrap.pypa.io/get-pip.py
+sudo python get-pip.py
+sudo pip install awscli
 
 ## AWS CODE DEPLOY AGENT
 curl -O https://$CODE_DEPLOY_AGENT_BUCKET/latest/install
@@ -77,6 +77,7 @@ fi
 sudo systemctl enable codedeploy-agent
 
 cd ~/
+rm -rf ~/tmp
 #### END :: INSTALL NON-APT PACKAGES ####
 
 
