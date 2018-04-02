@@ -28,3 +28,8 @@ resource "aws_iam_role_policy_attachment" "webserver_codedeploy_s3_read_access_p
   role       = "${aws_iam_role.webserver.name}"
   policy_arn = "${aws_iam_policy.toptaldevops_codedeploy_s3_read_access.arn}"
 }
+
+resource "aws_iam_role_policy_attachment" "toptaldevops_app_backup_s3_full_access" {
+  role       = "${aws_iam_role.webserver.name}"
+  policy_arn = "${aws_iam_policy.toptaldevops_app_backup_s3_full_access.arn}"
+}

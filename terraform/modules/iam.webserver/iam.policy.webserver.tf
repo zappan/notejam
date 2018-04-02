@@ -26,3 +26,25 @@ resource "aws_iam_policy" "toptaldevops_codedeploy_s3_read_access" {
 }
 EOF
 }
+
+
+resource "aws_iam_policy" "toptaldevops_app_backup_s3_full_access" {
+  name        = "ToptalDevOpsAppBackupS3FullAccessPolicy"
+  description = "Access policy allowing EC2 instances full access to the app backup S3 bucket"
+
+  policy = <<EOF
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Effect": "Allow",
+      "Action": "s3:*",
+      "Resource": [
+        "arn:aws:s3:::${var.app_backup_bucket}",
+        "arn:aws:s3:::${var.app_backup_bucket}/*"
+      ]
+    }
+  ]
+}
+EOF
+}
