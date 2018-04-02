@@ -2,6 +2,7 @@
 *.bak
 *.log
 *.gitignore
+env.txt
 
 *.py[cod]
 

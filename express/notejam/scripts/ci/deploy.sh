@@ -27,8 +27,12 @@ export AWS_CODE_DEPLOY_S3_LIMIT_BUCKET_FILES=7
 export AWS_CODE_DEPLOY_OUTPUT_STATUS_LIVE=false
 export AWS_CODE_DEPLOY_DEPLOYMENT_OVERVIEW=false
 
+
 npm install --only=production
 node db.js
+
+echo $ENV > env.txt
+rm -rf tests/
 
 aws-code-deploy
 

@@ -26,4 +26,12 @@ systemctl restart nginx
 #### Delete config templates
 rm -rf $DEPLOYMENT_CONFIG_DIR/
 
+#### Add app backups to cron
+BACKUP_CRON_FREQ="0 4 * * *"
+if [ -n "$BACKUP_CRON_FREQ" ]; then
+  croncmd="su - root -c ${APP_PATH}/cron/db-backup.sh"
+  cronjob="$BACKUP_CRON_FREQ $croncmd"
+  ( crontab -u root -l | grep -v "$croncmd" ; echo "$cronjob" ) | crontab -u root -
+fi
+
 exit 0
