@@ -26,3 +26,6 @@ variable "webserver_asg_desired" { default = 0 }
 variable "deployment_app_name" {}
 variable "deployment_option" {}
 variable "codedeploy_role_arn" {}
+
+# ### External services
+variable "datadog_api_key" {}

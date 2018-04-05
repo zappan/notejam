@@ -33,6 +33,7 @@ module "devEnvironment" {
   deployment_option     = "WITHOUT_TRAFFIC_CONTROL"
   codedeploy_role_arn   = "${module.global.codedeploy_role_arn}"
   webserver_iam_profile = "${module.global.webserver_iam_profile}"
+  datadog_api_key       = "${local.datadog_api_key}"
 }
 
 module "prodEnvironment" {
@@ -45,4 +46,5 @@ module "prodEnvironment" {
   deployment_option     = "WITHOUT_TRAFFIC_CONTROL"
   codedeploy_role_arn   = "${module.global.codedeploy_role_arn}"
   webserver_iam_profile = "${module.global.webserver_iam_profile}"
+  datadog_api_key       = "${local.datadog_api_key}"
 }

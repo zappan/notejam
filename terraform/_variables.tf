@@ -23,4 +23,6 @@ locals {
   webserver_amis = {
     us-east-1 = "${var.packer_webserver_ami}"
   }
+  ### LOGGING :: DataDog reg email: toptaldevops@1usemail.com (http://www.1usemail.com/) (123)
+  datadog_api_key = "75fccbf84c1ada6945f926bf72091743"
 }

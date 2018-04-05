@@ -14,3 +14,6 @@ variable "asg_min" {}
 variable "asg_max" {}
 variable "asg_desired" {}
 variable "asg_subnet_ids" { type = "list" }
+
+# ### External services
+variable "datadog_api_key" {}

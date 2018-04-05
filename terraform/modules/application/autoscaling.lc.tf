@@ -3,7 +3,7 @@ resource "aws_launch_configuration" "webserver_lc" {
   image_id             = "${lookup(var.amis, var.region)}"
   instance_type        = "${var.instance_type}"
   iam_instance_profile = "${var.webserver_iam_profile}"
-  user_data            = "${file("${path.module}/userdata/webserver.sh")}"
+  user_data            = "${replace(file("${path.module}/userdata/webserver.sh"), "{{DATADOG_API_KEY}}", "${var.datadog_api_key}")}"
   key_name             = "${var.ssh_key_name}"
   associate_public_ip_address = true
   lifecycle {
