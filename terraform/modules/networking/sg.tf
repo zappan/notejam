@@ -116,3 +116,25 @@ resource "aws_security_group" "webserver_sg" {
     Name = "${var.env}-WebServer-SG"
   }
 }
+
+# RDS SG - allows all SSH inbound, and all outbound traffic
+resource "aws_security_group" "rds_sg" {
+  vpc_id      = "${aws_vpc.vpc.id}"
+  name        = "${var.env}-RDS-SG"
+  description = "RDS SG"
+  ingress {
+    protocol  = "tcp"
+    from_port = 3306
+    to_port   = 3306
+    security_groups = ["${aws_security_group.webserver_sg.id}"]
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags {
+    Name = "${var.env}-RDS-SG"
+  }
+}

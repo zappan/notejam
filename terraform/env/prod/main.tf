@@ -5,6 +5,13 @@ module "networking" {
   vpc_cidr = "${var.vpc_cidr}"
 }
 
+# module "database" {
+#   source              = "../../modules/database"
+#   env                 = "${var.env}"
+#   rds_sg_id           = "${module.networking.rds_sg_id}"
+#   rds_subnetgroup_ids = "${module.networking.webserver_subnet_ids}"
+# }
+
 module "bastions" {
   source          = "../../modules/bastions"
   env             = "${var.env}"
