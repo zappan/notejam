@@ -27,11 +27,20 @@ server {
 EOF
 
 
+#### Datadog config
+DATADOG_YAML='/etc/datadog-agent/datadog.yaml'
+
 ## Enable logs collection in datadog
 MATCH='# logs_enabled: false'
 INSERT='logs_enabled: true'
-DATADOG_YAML='/etc/datadog-agent/datadog.yaml'
 sed -i "s/$MATCH/$MATCH\n\n$INSERT\n/" $DATADOG_YAML
+
+## Enable collecting data about system processes for debugging bottlenecks
+cat <<EOM >> $DATADOG_YAML
+
+process_config:
+  enabled: "true"
+EOM
 
 
 ## Enable system logs collection
