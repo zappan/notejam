@@ -19,9 +19,11 @@ systemctl enable notejam
 cp $DEPLOYMENT_NGINX_CONFIG_DIR/sites-available/notejam $NGINX_CONFIG_DIR/sites-available/default
 cp $DEPLOYMENT_NGINX_CONFIG_DIR/conf.d/proxy.conf $NGINX_CONFIG_DIR/conf.d/
 
-#### (Re)start node app and nginx server
-systemctl restart notejam
-systemctl restart nginx
+## Initialize DB if it doesn't exist
+if [ ! -f ${APP_PATH}/notejam.db ]; then
+  cd ${APP_PATH} && node db.js ; cd -
+  chown www-data:www-data ${APP_PATH}/notejam.db
+fi
 
 #### Delete config templates
 rm -rf $DEPLOYMENT_CONFIG_DIR/

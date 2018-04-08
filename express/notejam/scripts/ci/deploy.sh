@@ -29,7 +29,6 @@ export AWS_CODE_DEPLOY_DEPLOYMENT_OVERVIEW=false
 
 
 npm install --only=production
-node db.js
 
 echo $ENV > env.txt
 rm -rf tests/
