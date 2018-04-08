@@ -33,6 +33,8 @@ upfront, so skipped that option in this case to keep things fully automated.
 
 # AWS Architecture Overview
 
+  * AWS Architecture Diagram => see `docs/ToptalDevOps-AwsArchitectureDiagram.png`
+
 ## VPC / Networking
 
 #### VPCs:
