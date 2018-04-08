@@ -1,5 +1,6 @@
 # Global-level vars to be passed in
 variable "region" {}
+variable "app_name" {}
 variable "ssh_key_name" {}
 variable "default_amis" { type = "map" }
 variable "webserver_amis" { type = "map" }

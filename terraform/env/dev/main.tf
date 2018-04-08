@@ -44,3 +44,13 @@ module "application" {
   deployment_service_role_arn = "${var.codedeploy_role_arn}"
   datadog_api_key             = "${var.datadog_api_key}"
 }
+
+module "loadbalancer" {
+  source             = "../../modules/loadbalancer"
+  env                = "${var.env}"
+  app_name           = "${var.app_name}"
+  alb_vpc_id         = "${module.networking.vpc_id}"
+  alb_sg_id          = "${module.networking.alb_sg_id}"
+  alb_subnet_ids     = "${module.networking.webserver_subnet_ids}"
+  alb_servers_asg_id = "${module.application.webservers_asg_id}"
+}

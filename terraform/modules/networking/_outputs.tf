@@ -1,10 +1,18 @@
 
+output "vpc_id" {
+  value = "${aws_vpc.vpc.id}"
+}
+
 output "bastion_subnet_ids" {
     value = ["${aws_subnet.bastion_subnets.*.id}"]
 }
 
 output "webserver_subnet_ids" {
     value = ["${aws_subnet.webserver_subnets.*.id}"]
+}
+
+output "alb_sg_id" {
+  value = "${aws_security_group.alb_sg.id}"
 }
 
 output "bastion_sg_id" {
