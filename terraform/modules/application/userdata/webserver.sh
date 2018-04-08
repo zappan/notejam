@@ -1,8 +1,8 @@
 #!/bin/bash
 
-## DataDog logging agent
+## DataDog logging agent - install & add to 'adm' group for getting logs R/O access
 DD_API_KEY={{DATADOG_API_KEY}} bash -c "$(curl -L https://raw.githubusercontent.com/DataDog/datadog-agent/master/cmd/agent/install_script.sh)"
-
+usermod -a -G adm dd-agent
 
 ## Enable status check for nginx (via localhost only)
 cat <<EOF > /etc/nginx/conf.d/status.conf
@@ -34,10 +34,23 @@ DATADOG_YAML='/etc/datadog-agent/datadog.yaml'
 sed -i "s/$MATCH/$MATCH\n\n$INSERT\n/" $DATADOG_YAML
 
 
+## Enable system logs collection
+DD_SYSLOG_CONF_DIR=/etc/datadog-agent/conf.d/syslog.d
+mkdir -p ${DD_SYSLOG_CONF_DIR}
+cat <<EOF > ${DD_SYSLOG_CONF_DIR}/conf.yaml
+logs:
+  - type: file
+    path: /var/log/syslog
+    service: system
+    source: syslog
+    sourcecategory: system_logs
+EOF
+
+
 ## Enable nginx status and logs collection
-chmod a+x /var/log/nginx
-chmod a+r /var/log/nginx/*
-cat <<EOF > /etc/datadog-agent/conf.d/nginx.d/conf.yaml
+DD_NGINX_CONF_DIR=/etc/datadog-agent/conf.d/nginx.d
+mkdir -p ${DD_NGINX_CONF_DIR}
+cat <<EOF > ${DD_NGINX_CONF_DIR}/conf.yaml
 init_config:
 
 instances:
