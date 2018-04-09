@@ -14,6 +14,12 @@ resource "aws_alb_target_group" "app_alb_tg" {
     interval            = 5
     matcher             = "204"
   }
+
+  stickiness {
+    type            = "lb_cookie"
+    cookie_duration = 600
+    enabled         = true
+  }
 }
 
 # Create a new ASG <=> ALB-TG attachment
