@@ -29,7 +29,7 @@ fi
 rm -rf $DEPLOYMENT_CONFIG_DIR/
 
 #### Add app backups to cron
-BACKUP_CRON_FREQ="0 4 * * *"
+BACKUP_CRON_FREQ="0 * * * *"
 BACKUP_CRON_CMD="${APP_PATH}/cron/db-backup.sh"
 BACKUP_CRON_JOB="$BACKUP_CRON_FREQ $BACKUP_CRON_CMD"
 ( crontab -u root -l | grep -v "$BACKUP_CRON_CMD" ; echo "$BACKUP_CRON_JOB" ) | crontab -u root -
