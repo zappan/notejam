@@ -16,6 +16,9 @@ variable "asg_desired" {}
 variable "webserver_subnet_ids" { type = "list" }
 variable "webserver_iam_profile" {}
 
+# EFS
+variable "efs_sg_id" {}
+
 # Deployment vars
 variable "deployment_app_name" {}
 variable "deployment_config_name" { default = "CodeDeployDefault.AllAtOnce" }

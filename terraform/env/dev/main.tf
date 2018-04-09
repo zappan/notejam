@@ -36,6 +36,7 @@ module "application" {
   asg_min               = "${var.webserver_asg_min}"
   asg_max               = "${var.webserver_asg_max}"
   asg_desired           = "${var.webserver_asg_desired}"
+  efs_sg_id             = "${module.networking.efs_sg_id}"
   webserver_subnet_ids  = "${module.networking.webserver_subnet_ids}"
   webserver_sg_id       = "${module.networking.webserver_sg_id}"
   webserver_iam_profile = "${var.webserver_iam_profile}"

@@ -1,1 +1,1 @@
-packer_webserver_ami = "ami-f4832389"
+packer_webserver_ami = "ami-cef12db1"

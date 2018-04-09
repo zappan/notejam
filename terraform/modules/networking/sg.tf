@@ -46,6 +46,29 @@ resource "aws_security_group" "alb_sg" {
   }
 }
 
+# EFS SG - allows Web Servers EFS inbound, and all outbound traffic
+resource "aws_security_group" "efs_sg" {
+  vpc_id      = "${aws_vpc.vpc.id}"
+  name        = "${var.env}-EFS-SG"
+  description = "EFS SG"
+  ingress {
+    protocol        = "tcp"
+    from_port       = 2049
+    to_port         = 2049
+    security_groups = ["${aws_security_group.webserver_sg.id}"]
+    description     = "Web Servers access to EFS"
+  }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  tags {
+    Name = "${var.env}-EFS-SG"
+  }
+}
+
 # Bastions SG - allows all SSH inbound, and all outbound traffic
 resource "aws_security_group" "bastion_sg" {
   vpc_id      = "${aws_vpc.vpc.id}"

@@ -81,7 +81,4 @@ rm -rf ~/tmp
 #### END :: INSTALL NON-APT PACKAGES ####
 
 
-#### CREATE deploy dir for AWS CodeDeploy (it expects an empty dir to mark installation finished)
-sudo mkdir -p $DEPLOY_APP_PATH
-
 exit 0;
