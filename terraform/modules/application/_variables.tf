@@ -13,7 +13,7 @@ variable "instance_type" {
 variable "asg_min" {}
 variable "asg_max" {}
 variable "asg_desired" {}
-variable "asg_subnet_ids" { type = "list" }
+variable "webserver_subnet_ids" { type = "list" }
 variable "webserver_iam_profile" {}
 
 # Deployment vars
