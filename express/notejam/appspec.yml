@@ -16,6 +16,7 @@ hooks:
     - location: scripts/aws-codedeploy/bootstrap_app.sh
       timeout: 300
       runas: root
+  ApplicationStart:
     - location: scripts/aws-codedeploy/start_server.sh
       timeout: 300
       runas: root

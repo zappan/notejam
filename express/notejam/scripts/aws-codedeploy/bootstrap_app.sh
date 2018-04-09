@@ -1,12 +1,19 @@
 #!/bin/bash
 
 APP_PATH=/var/www/html
+EFS_PATH=/efs/var/www/html
 NGINX_CONFIG_DIR=/etc/nginx
 SYSTEMD_CONFIG_DIR=/etc/systemd
 
 DEPLOYMENT_CONFIG_DIR=$APP_PATH/conf
 DEPLOYMENT_NGINX_CONFIG_DIR=$DEPLOYMENT_CONFIG_DIR/nginx
 DEPLOYMENT_SYSTEMD_CONFIG_DIR=$DEPLOYMENT_CONFIG_DIR/systemd
+
+## Prepare EFS_PATH and APP_PATH
+if [ ! -d $EFS_PATH ]; then
+  mkdir -p $EFS_PATH
+  chown www-data:www-data $EFS_PATH
+fi
 
 chown -R www-data:www-data $APP_PATH
 
@@ -19,10 +26,16 @@ systemctl enable notejam
 cp $DEPLOYMENT_NGINX_CONFIG_DIR/sites-available/notejam $NGINX_CONFIG_DIR/sites-available/default
 cp $DEPLOYMENT_NGINX_CONFIG_DIR/conf.d/proxy.conf $NGINX_CONFIG_DIR/conf.d/
 
-## Initialize DB if it doesn't exist
-if [ ! -f ${APP_PATH}/notejam.db ]; then
-  cd ${APP_PATH} && node db.js ; cd -
-  chown www-data:www-data ${APP_PATH}/notejam.db
+## Initialize DB on the EFS (shared) storage if it doesn't exist
+if [ ! -f ${EFS_PATH}/notejam.db ]; then
+  cd ${EFS_PATH} && node ${APP_PATH}/db.js ; cd -
+  chown www-data:www-data ${EFS_PATH}/notejam.db
+fi
+
+## Symlink to the shared EFS DB if symlink doesn't exist
+if [ ! -L ${APP_PATH}/notejam.db ]; then
+  cd ${APP_PATH} && ln -s ${EFS_PATH}/notejam.db ; cd -
+  chown -h www-data:www-data ${APP_PATH}/notejam.db
 fi
 
 #### Delete config templates

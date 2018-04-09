@@ -1,4 +1,4 @@
 #!/bin/bash
 
-systemctl start notejam
-systemctl start nginx
+systemctl restart notejam
+systemctl restart nginx
