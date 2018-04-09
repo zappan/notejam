@@ -5,6 +5,7 @@ resource "aws_autoscaling_group" "webserver_asg" {
   desired_capacity     = "${var.asg_desired}"
   vpc_zone_identifier  = ["${var.webserver_subnet_ids}"]
   launch_configuration = "${aws_launch_configuration.webserver_lc.id}"
+  health_check_type    = "ELB"
   default_cooldown     = 30
   tag {
     key                 = "Name"

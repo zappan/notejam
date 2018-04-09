@@ -7,11 +7,12 @@ resource "aws_alb_target_group" "app_alb_tg" {
   health_check {
     port                = "traffic-port"
     protocol            = "HTTP"
-    path                = "/"
-    timeout             = 5
+    path                = "/health-check"
+    timeout             = 2
     healthy_threshold   = 2
     unhealthy_threshold = 2
-    matcher             = "200"
+    interval            = 5
+    matcher             = "204"
   }
 }
 
